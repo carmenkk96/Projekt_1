@@ -17,5 +17,6 @@ public class TaotluseGenereerimine {
         //genereerime uue ID
         ID uus = new ID(uusTaotlus);
         System.out.println(uus);
+
     }
 }

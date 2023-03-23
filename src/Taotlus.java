@@ -28,4 +28,5 @@ public class Taotlus {
     public String toString() {
         return taotluseKuupäev + ": "  + taotlejaNimi + ", toode: " + tooteNimi;
     }
+
 }

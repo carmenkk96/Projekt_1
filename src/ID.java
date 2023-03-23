@@ -72,4 +72,5 @@ public class ID {
         else
             return "Taotlus: " + id + " (" + taotlejaNimi + ", " + tooteNimi + ", " + taotluseKuupäev +")";
     }
+
 }
