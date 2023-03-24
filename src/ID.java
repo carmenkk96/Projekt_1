@@ -6,32 +6,29 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 public class ID {
-    private String taotlejaNimi;
-    private String tooteNimi;
-    private LocalDate taotluseKuupäev;
+    private Taotlus taotlus;
     private String id;
 
+
     public ID(Taotlus taotlus) throws FileNotFoundException {
-        this.taotlejaNimi = taotlus.getTaotlejaNimi();
-        this.tooteNimi = taotlus.getTooteNimi();
-        this.taotluseKuupäev = taotlus.getTaotluseKuupäev();
+        this.taotlus = taotlus;
         this.id = generateID();
     }
 
     private String generateID() throws FileNotFoundException {
-        String id;
-        do {
-            id = taotluseKuupäev.toString().replaceAll("-", "").substring(2) + "-" +
-                    taotlejaNimi.substring(0, 2).toUpperCase() + tooteNimi.substring(0, 4).toUpperCase();
-                    //+ (int) (Math.random() * 20); //ID genereerimisel ka juhuslikkuse kasutamine
-            if (idSobivuseKontroll(new File("andmebaas.txt"), id) == false)
-                return null;
-        } while (!idSobivuseKontroll(new File("andmebaas.txt"), id));
-
-        try(PrintWriter pw = new PrintWriter(new FileOutputStream("andmebaas.txt", true))) {
-            pw.println(taotluseKuupäev + " " + taotlejaNimi + " " + tooteNimi + " " + id);
-        }
-        return id;
+        this.id = taotlus.getTaotluseKuupäev().toString().replaceAll("-", "").substring(2) + "-" +
+                taotlus.getTaotlejaNimi().substring(0, 2).toUpperCase() + taotlus.getTooteNimi().substring(0, 4).toUpperCase();
+        if (idSobivuseKontroll(new File("andmebaas.txt"), this.id) == false) {
+            this.id = taotlus.getTaotluseKuupäev().toString().replaceAll("-", "").substring(2) + "-" +
+                    taotlus.getTaotlejaNimi().substring(0, 2).toUpperCase() + taotlus.getTooteNimi().substring(0, 4).toUpperCase()+
+                    + (int) (Math.random() * 5); //ID genereerimisel ka juhuslikkuse kasutamine
+            if (idSobivuseKontroll(new File("andmebaas.txt"), this.id) == false)
+                return veaTeade();}
+        else
+            try(PrintWriter pw = new PrintWriter(new FileOutputStream("andmebaas.txt", true))) {
+                pw.println(taotlus.getTaotluseKuupäev() + " " +  taotlus.getTaotlejaNimi() + " " + taotlus.getTooteNimi() + " " + this.id);
+            }
+        return this.id;
     }
 
 
@@ -55,7 +52,7 @@ public class ID {
     public void salvestaAndmebaasi() throws FileNotFoundException {
         if (generateID() != null) {
             try(PrintWriter pw = new PrintWriter(new FileOutputStream("andmebaas.txt", true))) {
-                pw.println(taotluseKuupäev + " " + taotlejaNimi + " " + tooteNimi + " " + id);
+                pw.println(taotlus.getTaotluseKuupäev() + " " + taotlus.getTooteNimi() + " " + taotlus.getTaotlejaNimi() + " " + this.id);
             }
         }
     }
@@ -70,7 +67,7 @@ public class ID {
         if (this.id == null)
             return veaTeade();
         else
-            return "Taotlus: " + id + " (" + taotlejaNimi + ", " + tooteNimi + ", " + taotluseKuupäev +")";
+            return "Taotlus: " + id + " (" + taotlus.getTaotlejaNimi() + ", " + taotlus.getTooteNimi() + ", " + taotlus.getTaotluseKuupäev() +")";
     }
 
 }
