@@ -1,6 +1,6 @@
 import java.io.FileNotFoundException;
 import java.util.Scanner;
-
+//COMMENT
 public class TaotluseGenereerimine {
     public static void main(String[] args) throws FileNotFoundException {
         //küsime admed
