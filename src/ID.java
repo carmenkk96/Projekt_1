@@ -2,7 +2,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
-import java.time.LocalDate;
 import java.util.Scanner;
 
 public class ID {
@@ -24,9 +23,9 @@ public class ID {
                     + (int) (Math.random() * 5); //ID genereerimisel ka juhuslikkuse kasutamine
             if (idSobivuseKontroll(new File("andmebaas.txt"), this.id) == false)
                 return veaTeade();}
-        else
-            try(PrintWriter pw = new PrintWriter(new FileOutputStream("andmebaas.txt", true))) {
-                pw.println(taotlus.getTaotluseKuupäev() + " " +  taotlus.getTaotlejaNimi() + " " + taotlus.getTooteNimi() + " " + this.id);
+
+        try(PrintWriter pw = new PrintWriter(new FileOutputStream("andmebaas.txt", true))) {
+            pw.println(taotlus.getTaotluseKuupäev() + " " +  taotlus.getTaotlejaNimi() + " " + taotlus.getTooteNimi() + " " + this.id);
             }
         return this.id;
     }
