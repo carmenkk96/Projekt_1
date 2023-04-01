@@ -1,22 +1,3 @@
 
 2023-03-22 Peeter Paan Ibumetin 400 mg 230322-PEIBUM1
-
-2023-03-22 Karmen Karu Lenolidamiid-20 230322-KALENO1
-2023-03-22 Liia Lill Prednisoloon 230322-LIPRED12
-2023-03-22 Karmen Kullerkupp Mesi 230322-KAMESI3
-2023-03-22 Karmen Kullerkupp Mesi 230322-KAMESI
-2023-03-22 Karemen Kullerkupp Mesi 230322-KAMESI
-2023-03-22 Karmen Kullerkupp Mesi 230322-KAMESI
-2023-03-22 Karmen Kullerkupp Mesi 230322-KAMESI
-2023-03-22 Karmen Kullerkupp Mesi null
-2023-03-22 Lilleke lill 230322-LILILL
-2023-03-22 Lilleke lill 230322-LILILL
-2023-03-24 carmen kommid 230324-CAKOMM2
-2023-03-24 carmen kommid 230324-CAKOMM1
-2023-03-24 carmen  kommid 230324-CAKOMM0
-2023-03-24 carmen kommid 230324-CAKOMM4
-2023-03-24 carmen kommid 230324-CAKOMM3
-2023-03-24 test test 230324-TETEST1
-2023-03-24 test test 230324-TETEST
-2023-03-24 test test 230324-TETEST4
-2023-03-24 Ahto Kirves 230324-AHKIRV
+2023-04-01 carmen ibumetin 400 mg 230401-CAIBUM

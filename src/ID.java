@@ -4,28 +4,27 @@ import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-public class ID {
-    private Taotlus taotlus;
+public class ID extends Taotlus {
     private String id;
 
-
-    public ID(Taotlus taotlus) throws FileNotFoundException {
-        this.taotlus = taotlus;
+    public ID(String taotlejaNimi, String tooteNimi) throws Exception {
+        super(taotlejaNimi, tooteNimi);
         this.id = generateID();
     }
 
-    private String generateID() throws FileNotFoundException {
-        this.id = taotlus.getTaotluseKuupäev().toString().replaceAll("-", "").substring(2) + "-" +
-                taotlus.getTaotlejaNimi().substring(0, 2).toUpperCase() + taotlus.getTooteNimi().substring(0, 4).toUpperCase();
-        if (idSobivuseKontroll(new File("andmebaas.txt"), this.id) == false) {
-            this.id = taotlus.getTaotluseKuupäev().toString().replaceAll("-", "").substring(2) + "-" +
-                    taotlus.getTaotlejaNimi().substring(0, 2).toUpperCase() + taotlus.getTooteNimi().substring(0, 4).toUpperCase()+
-                    + (int) (Math.random() * 5); //ID genereerimisel ka juhuslikkuse kasutamine
-            if (idSobivuseKontroll(new File("andmebaas.txt"), this.id) == false)
-                return veaTeade();}
 
+    private String generateID() throws FileNotFoundException {
+        this.id = super.getTaotluseKuupäev().toString().replaceAll("-", "").substring(2) + "-" +
+                super.getTaotlejaNimi().substring(0, 2).toUpperCase() + super.getTooteNimi().substring(0, 4).toUpperCase();
+        if (idSobivuseKontroll(new File("andmebaas.txt"), this.id) == false) {
+            this.id = super.getTaotluseKuupäev().toString().replaceAll("-", "").substring(2) + "-" +
+                    super.getTaotlejaNimi().substring(0, 2).toUpperCase() + super.getTooteNimi().substring(0, 4).toUpperCase()+
+                    + (int) Math.round(Math.random() * 5); //ID genereerimisel ka juhuslikkuse kasutamine
+            if (idSobivuseKontroll(new File("andmebaas.txt"), this.id) == false)
+                return veaTeade();
+        }
         try(PrintWriter pw = new PrintWriter(new FileOutputStream("andmebaas.txt", true))) {
-            pw.println(taotlus.getTaotluseKuupäev() + " " +  taotlus.getTaotlejaNimi() + " " + taotlus.getTooteNimi() + " " + this.id);
+            pw.println(super.getTaotluseKuupäev() + " " +  super.getTaotlejaNimi() + " " + super.getTooteNimi() + " " + this.id);
             }
         return this.id;
     }
@@ -48,15 +47,6 @@ public class ID {
         return "Taotlust ei registreeritud - ID on juba andmebaasis olemas. Palun proovi uuesti!";
     }
 
-    public void salvestaAndmebaasi() throws FileNotFoundException {
-        if (generateID() != null) {
-            try(PrintWriter pw = new PrintWriter(new FileOutputStream("andmebaas.txt", true))) {
-                pw.println(taotlus.getTaotluseKuupäev() + " " + taotlus.getTooteNimi() + " " + taotlus.getTaotlejaNimi() + " " + this.id);
-            }
-        }
-    }
-
-
     public String getId() {
         return id;
     }
@@ -66,7 +56,7 @@ public class ID {
         if (this.id == null)
             return veaTeade();
         else
-            return "Taotlus: " + id + " (" + taotlus.getTaotlejaNimi() + ", " + taotlus.getTooteNimi() + ", " + taotlus.getTaotluseKuupäev() +")";
+            return "Taotlus: " + id + " (" + super.getTaotlejaNimi() + ", " + super.getTooteNimi() + ", " + super.getTaotluseKuupäev() +")";
     }
 
 }

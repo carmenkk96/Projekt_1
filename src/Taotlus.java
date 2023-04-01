@@ -24,9 +24,4 @@ public class Taotlus {
         return taotluseKuupäev;
     }
 
-    @Override
-    public String toString() {
-        return taotluseKuupäev + ": "  + taotlejaNimi + ", toode: " + tooteNimi;
-    }
-
 }
