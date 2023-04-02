@@ -32,9 +32,5 @@ public class TaotluseGenereerimine {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        uusTaotlus.taotluseKirjutamineFaili(uusId.getId());
-        //Kirjutame uue taotluse andmebaasi
-
-
     }
 }

@@ -5,7 +5,7 @@ import java.util.List;
 public class ID extends Taotlus {
     private String id;
 
-    public ID(String taotlejaNimi, String tooteNimi){
+    public ID(String taotlejaNimi, String tooteNimi) throws Exception{
         super(taotlejaNimi, tooteNimi);
         this.id = generateID();
     }
@@ -39,19 +39,21 @@ public class ID extends Taotlus {
         }
     }
     // ID genereerimine
-    private String generateID(){
+    private String generateID() throws Exception {
         this.id = super.getTaotluseKuupäev().toString().replaceAll("-", "").substring(2) + "-" +
                 super.getTaotlejaNimi().substring(0, 2).toUpperCase() + super.getTooteNimi().substring(0, 4).toUpperCase();
 
         if (!idSobivuseKontroll(this.id)) {
             this.id = super.getTaotluseKuupäev().toString().replaceAll("-", "").substring(2) + "-" +
-                    super.getTaotlejaNimi().substring(0, 2).toUpperCase() + super.getTooteNimi().substring(0, 4).toUpperCase()+
-                    + (int) Math.round(Math.random() * 5); //ID genereerimisel ka juhuslikkuse kasutamine
+                    super.getTaotlejaNimi().substring(0, 2).toUpperCase() + super.getTooteNimi().substring(0, 4).toUpperCase() +
+                    +(int) Math.round(Math.random() * 5); //ID genereerimisel ka juhuslikkuse kasutamine
             if (!idSobivuseKontroll(this.id))
                 return veaTeade();
         }
+        super.taotluseKirjutamineFaili(this.id);
         return this.id;
-    }
+        }
+
     //Kontrollin, kas list on programmiga kaasas olevas failis olemas, kui ei, siis salvestan id faili
     private boolean idSobivuseKontroll(String id) {
         List<String> idList = laenIDListi();
