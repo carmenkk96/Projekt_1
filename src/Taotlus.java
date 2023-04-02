@@ -1,5 +1,6 @@
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Taotlus {
     private String taotlejaNimi;
@@ -22,6 +23,11 @@ public class Taotlus {
 
     public LocalDate getTaotluseKuupäev() {
         return taotluseKuupäev;
+    }
+    public void taotluseKirjutamineFaili(String id) throws Exception {
+        try(PrintWriter pw = new PrintWriter(new FileOutputStream("andmebaas.txt", true))) {
+            pw.println(this.taotluseKuupäev + " " +  this.taotlejaNimi + " " + this.getTooteNimi() + " " + id);
+        }
     }
 
 }

@@ -1,55 +1,78 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
-import java.util.Scanner;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ID extends Taotlus {
     private String id;
 
-    public ID(String taotlejaNimi, String tooteNimi) throws Exception {
+    public ID(String taotlejaNimi, String tooteNimi){
         super(taotlejaNimi, tooteNimi);
         this.id = generateID();
     }
-
-
-    private String generateID() throws FileNotFoundException {
+    private static final String idList = "idlist.ser"; //tegin faili ainult ID-de hoidmiseks
+    // Meetod failist ID listi tegemiseks
+    private static List<String> laenIDListi() {
+        List<String> list = new ArrayList<>();
+        try {
+            FileInputStream fis = new FileInputStream(idList);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            list = (List<String>) ois.readObject();
+            ois.close();
+            fis.close();
+            System.out.println("Id list võetud failist " + idList);
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Teen uue listi");
+        }
+        return list;
+    }
+    //meetod id listi salvestamiseks faili
+    private static void salvestanIDListi(List<String> list) {
+        try {
+            FileOutputStream fos = new FileOutputStream(idList);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(list);
+            oos.close();
+            fos.close();
+            System.out.println("Salvestasin ID faili " + idList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    // ID genereerimine
+    private String generateID(){
         this.id = super.getTaotluseKuupäev().toString().replaceAll("-", "").substring(2) + "-" +
                 super.getTaotlejaNimi().substring(0, 2).toUpperCase() + super.getTooteNimi().substring(0, 4).toUpperCase();
-        if (idSobivuseKontroll(new File("andmebaas.txt"), this.id) == false) {
+
+        if (!idSobivuseKontroll(this.id)) {
             this.id = super.getTaotluseKuupäev().toString().replaceAll("-", "").substring(2) + "-" +
                     super.getTaotlejaNimi().substring(0, 2).toUpperCase() + super.getTooteNimi().substring(0, 4).toUpperCase()+
                     + (int) Math.round(Math.random() * 5); //ID genereerimisel ka juhuslikkuse kasutamine
-            if (idSobivuseKontroll(new File("andmebaas.txt"), this.id) == false)
+            if (!idSobivuseKontroll(this.id))
                 return veaTeade();
         }
-        try(PrintWriter pw = new PrintWriter(new FileOutputStream("andmebaas.txt", true))) {
-            pw.println(super.getTaotluseKuupäev() + " " +  super.getTaotlejaNimi() + " " + super.getTooteNimi() + " " + this.id);
-            }
         return this.id;
     }
-
-
-    private boolean idSobivuseKontroll(File fail, String id) throws FileNotFoundException {
-        try (Scanner sc = new Scanner(fail, "UTF-8")) {
-            while (sc.hasNextLine()) {
-                String rida = sc.nextLine();
-                String[] osad = rida.split(" ");
-                if (osad[osad.length - 1].equals(id)) {
-                    return false;
-                }
-            }
+    //Kontrollin, kas list on programmiga kaasas olevas failis olemas, kui ei, siis salvestan id faili
+    private boolean idSobivuseKontroll(String id) {
+        List<String> idList = laenIDListi();
+        if (idList.contains(id)) {
+            return false;
+        } else {
+            idList.add(id);
+            salvestanIDListi(idList);
+            return true;
         }
-        return true;
     }
 
     public String  veaTeade () {
         return "Taotlust ei registreeritud - ID on juba andmebaasis olemas. Palun proovi uuesti!";
     }
 
+
     public String getId() {
         return id;
     }
+
 
     @Override
     public String toString() {
